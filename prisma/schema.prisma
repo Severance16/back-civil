@@ -1,0 +1,247 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int           @id @default(autoincrement())
+  name          String
+  lastname      String
+  email         String        @unique
+  password      String
+  position     String
+  address       String
+  phone         String
+  createdAt     DateTime      @default(now())
+
+  projects      Project[]
+  usersProjects UserProject[]
+
+  @@map("users")
+}
+
+enum WorksTypes {
+  Residencial
+  Institucional
+}
+
+model Project {
+  id               Int        @id @default(autoincrement())
+  name             String
+  owner            String
+  license          String
+  address          String
+  totalArea        String?
+  authorizedLevels Int?
+  photo            String?
+  workType         WorksTypes?
+  startDate        DateTime
+  endDate          DateTime?
+  createdAt        DateTime   @default(now())
+
+  ingResident   User @relation(fields: [ingResidentId], references: [id])
+  ingResidentId Int
+
+  usersProjects UserProject[]
+  bugets        Budget[]
+  indormations  Infromation[]
+  progress Progress[]
+  mishaps Mishap[]
+
+  inventory Inventory?
+
+
+  @@map("projects")
+}
+
+model UserProject {
+  id Int @id @default(autoincrement())
+
+  project   Project @relation(fields: [projectId], references: [id])
+  projectId Int
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  @@map("usersprojects")
+}
+
+enum BugetsTypes {
+  Inicial
+  Final
+}
+
+model Budget {
+  id Int @id @default(autoincrement())
+
+  project   Project @relation(fields: [projectId], references: [id])
+  projectId Int
+
+  type BugetsTypes
+
+  items Item[]
+
+  @@map("budgets")
+}
+
+model Item {
+  id          Int    @id @default(autoincrement())
+  description String
+  amount      Float
+  incidence   Decimal
+
+  budget   Budget @relation(fields: [budgetId], references: [id])
+  budgetId Int
+
+  subItems SubItem[]
+
+  @@map("items")
+}
+
+model SubItem {
+  id          Int    @id @default(autoincrement())
+  description String
+  unit        String?
+  quantity    Float?
+  amount      Float
+  incidence   Decimal
+
+  item   Item @relation(fields: [itemId], references: [id])
+  itemId Int
+
+  @@map("subitems")
+}
+
+model Infromation {
+  id            Int      @id @default(autoincrement())
+  state         String
+  date          DateTime
+  time          String?
+  precipitation String?
+  temperature   String?
+  humidity      String?
+  wind          String?
+
+  project   Project @relation(fields: [projectId], references: [id])
+  projectId Int
+
+  assists Assist[]
+
+  @@map("infromation")
+}
+
+enum ContractorsTypes {
+  Interno
+  Contratista
+}
+
+model Assist {
+  id         Int              @id @default(autoincrement())
+  name       String
+  area       String?
+  work       String?
+  contractor ContractorsTypes
+
+  information   Infromation @relation(fields: [informationId], references: [id])
+  informationId Int
+
+  @@map("assists")
+}
+
+model Progress {
+  id          Int    @id @default(autoincrement())
+  consecutive String
+  activity    String
+  description String
+  evidence    String
+
+  project Project @relation(fields: [projectId], references: [id])
+  projectId Int
+  
+  @@map("progress")
+}
+
+model Mishap {
+  id          Int    @id @default(autoincrement())
+  consecutive String
+  activity    String
+  description String
+  evidence    String
+
+  project Project @relation(fields: [projectId], references: [id])
+  projectId Int
+
+  @@map("mishaps")
+}
+
+model Inventory {
+  id Int @id  @default(autoincrement())
+  
+  project Project @relation(fields: [projectId], references: [id])
+  projectId Int @unique
+
+  tools Tool[]
+  inputs Input[]
+
+  @@map("inventories")
+}
+
+model Tool {
+  id Int @id  @default(autoincrement())
+  numberArticle String
+  description String
+  quantity Float
+  place String?
+  condition String
+  serviceTime Int?
+  purchaseDate DateTime?
+  unitValue Float
+
+  inventory Inventory @relation(fields: [inventoryId], references: [id])
+  inventoryId Int
+
+  notes Note[]
+
+  @@map("tools")
+}
+
+model Input {
+  id Int @id  @default(autoincrement())
+  numberArticle String
+  description String
+  unit String?
+  quantity Float
+  purchaseDate DateTime?
+  unitValue Float
+
+  inventory Inventory @relation(fields: [inventoryId], references: [id])
+  inventoryId Int
+  
+  notes Note[]
+
+  @@map("inputs")
+}
+
+enum NoteType {
+  Ingreso
+  Egreso
+}
+model Note {
+  id Int @id  @default(autoincrement())
+  date DateTime
+  type NoteType
+  
+  tool Tool? @relation(fields: [toolId], references: [id])
+  toolId Int?
+  input Input? @relation(fields: [inputId], references: [id])
+  inputId Int?
+
+ @@map("notes")
+}
