@@ -1,4 +1,4 @@
-import { query, type Request, type Response } from "express";
+import { type Request, type Response } from "express";
 import prismaClient from "../configs/prismaClient";
 
 export class projectController {

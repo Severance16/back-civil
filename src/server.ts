@@ -2,7 +2,6 @@ import express from "express"
 import dotenv from "dotenv"
 import userRoutes from "./routes/userRoutes"
 import projectRoutes from "./routes/projectRoutes"
-import { authenticate } from "./middlewares/auth"
 
 dotenv.config()
 
