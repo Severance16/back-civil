@@ -60,11 +60,11 @@ export class subItemController {
 
   static getSubItemBudget = async (req: Request, res: Response) => {
     try {
-      const { itemId } = req.params;
+      const { id } = req.params;
 
       const query = await prismaClient.item.findUnique({
         where: {
-          id: +itemId,
+          id: +id,
         },
       });
 

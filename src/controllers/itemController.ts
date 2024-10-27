@@ -28,31 +28,35 @@ export class itemController {
       const query = await prismaClient.item.create({
         data: {
           budgetId: +budgetId,
-          ...data
-        }
-      })
-      
-      res.status(201).json(query)
+          ...data,
+        },
+      });
+
+      res.status(201).json(query);
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
       res.status(500).json({
         message: "Hubo un error.",
         error: error.message,
       });
     }
   };
-  
+
   static getItemBudget = async (req: Request, res: Response) => {
     try {
-      const { itemId } = req.params;
+      const { id } = req.params;
 
       const query = await prismaClient.item.findUnique({
         where: {
-          id: +itemId
-        } 
-      })
-
-      res.json(query)
+          id: +id,
+        },
+      });
+      if (!query) {
+        const error = new Error("Categoria no encontrado.");
+        res.status(404).json({ error: error.message });
+        return;
+      }
+      res.json(query);
     } catch (error) {
       res.status(500).json({
         message: "Hubo un error.",

@@ -42,14 +42,18 @@ export class budgetController {
 
   static getBudget = async (req: Request, res: Response) => {
     try {
-      const { budgetId } = req.params;
+      const { id } = req.params;
 
       const query = await prismaClient.budget.findUnique({
         where: {
-          id: +budgetId,
+          id: +id,
         },
       });
-
+      if (!query) {
+        const error = new Error("Presupuesto no encontrado.");
+        res.status(404).json({ error: error.message });
+        return;
+      }
       res.json(query);
     } catch (error) {
       res.status(500).json({

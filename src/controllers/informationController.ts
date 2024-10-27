@@ -8,21 +8,21 @@ export class informationController {
 
       const projectExist = await prismaClient.project.findUnique({
         where: {
-          id: +projectId
-        }
-      })
+          id: +projectId,
+        },
+      });
       if (!projectExist) {
-        const error = new Error("Proyecto no encontrado.")
-        res.status(404).json({error: error.message})
-        return
+        const error = new Error("Proyecto no encontrado.");
+        res.status(404).json({ error: error.message });
+        return;
       }
 
       const query = await prismaClient.information.findMany({
         where: {
-          projectId: +projectId
-        }
-      })
-      res.json(query)
+          projectId: +projectId,
+        },
+      });
+      res.json(query);
     } catch (error) {
       res.status(500).json({
         message: "Hubo un error.",
@@ -38,13 +38,13 @@ export class informationController {
 
       const projectExist = await prismaClient.project.findUnique({
         where: {
-          id: +projectId
-        }
-      })
+          id: +projectId,
+        },
+      });
       if (!projectExist) {
-        const error = new Error("Proyecto no encontrado.")
-        res.status(404).json({error: error.message})
-        return
+        const error = new Error("Proyecto no encontrado.");
+        res.status(404).json({ error: error.message });
+        return;
       }
 
       const query = await prismaClient.information.create({
@@ -64,13 +64,18 @@ export class informationController {
 
   static getInformation = async (req: Request, res: Response) => {
     try {
-      const { informationId } = req.params
+      const { id } = req.params;
       const query = await prismaClient.information.findUnique({
         where: {
-          id: +informationId
-        }
-      })
-      res.json(query)
+          id: +id,
+        },
+      });
+      if (!query) {
+        const error = new Error("Informe no encontrado.");
+        res.status(404).json({ error: error.message });
+        return;
+      }
+      res.json(query);
     } catch (error) {
       res.status(500).json({
         message: "Hubo un error.",
@@ -81,18 +86,18 @@ export class informationController {
 
   static updateInformation = async (req: Request, res: Response) => {
     try {
-      const { informationId } = req.params
-      const data = req.body
+      const { informationId } = req.params;
+      const data = req.body;
 
       const query = await prismaClient.information.update({
         where: {
-          id: +informationId
+          id: +informationId,
         },
         data: {
-          ...data
-        }
-      })
-      res.status(404).json(query)
+          ...data,
+        },
+      });
+      res.json(query);
     } catch (error) {
       res.status(500).json({
         message: "Hubo un error.",
@@ -103,15 +108,15 @@ export class informationController {
 
   static deleteInformation = async (req: Request, res: Response) => {
     try {
-      const { informationId } = req.params
+      const { informationId } = req.params;
 
       const query = await prismaClient.information.delete({
         where: {
-          id: +informationId
-        }
-      })
+          id: +informationId,
+        },
+      });
 
-      res.json(query)
+      res.json(query);
     } catch (error) {
       res.status(500).json({
         message: "Hubo un error.",
