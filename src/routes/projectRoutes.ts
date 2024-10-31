@@ -11,6 +11,10 @@ import { itemExists } from "../middlewares/item";
 import { informationExist } from "../middlewares/information";
 import { assistController } from "../controllers/assistController";
 import { assistExist } from "../middlewares/assist";
+import { progressExist } from "../middlewares/progress";
+import { progressController } from "../controllers/progressController";
+import { mishapExist } from "../middlewares/mishap";
+import { misahpController } from "../controllers/mishapController";
 
 const router = Router()
 
@@ -25,6 +29,8 @@ router.param('budgetId', budgetExist)
 router.param('itemtId', itemExists)
 router.param('informationId', informationExist)
 router.param('assistId', assistExist)
+router.param('progressId', progressExist)
+router.param('mishapId', mishapExist)
 // ------------------------- End middlewares
 
 // Project
@@ -55,7 +61,7 @@ router.get('/budget/item/subitem/:id', subItemController.getSubItemBudget)
 // ----------
 // ---------------------------------- End Collection 1 for Budgets
 
-// Collection 1 for Information
+// Collection 2 for Information
 // Information
 router.get('/:projectId/information', informationController.getAllInformations)
 router.post('/:projectId/information', informationController.createInformation)
@@ -72,6 +78,22 @@ router.post('/information/:informationId/assists', assistController.createAssist
 router.put('/information/assist/:assistId', assistController.updateAssist)
 router.delete('/information/assist/:assistId', assistController.deleteAssist)
 // ----------
-// ---------------------------------- End Collection 1 for Information
+// ---------------------------------- End Collection 2 for Information
+
+// Progress
+router.get('/:projectId/progress', progressController.getAllProgress )
+router.post('/:projectId/progress', progressController.createProgress)
+router.get('/progress/:id', progressController.getProgress)
+router.put('/progress/:progressId', progressController.updateProgress)
+router.delete('/progress/:progressId', progressController.deleteProgress)
+// ----------
+
+// Mishaps
+router.get('/:projectId/mishap', misahpController.getAllMishaps)
+router.post('/:projectId/mishap', misahpController.createMishap)
+router.get('/mishap/:id', misahpController.getMishap)
+router.put('/mishap/:mishapId', misahpController.updateMishap)
+router.delete('/mishap/:mishapId', misahpController.deleteMishap)
+// ----------
 
 export default router

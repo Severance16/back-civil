@@ -30,6 +30,11 @@ model User {
 enum WorksTypes {
   Residencial
   Institucional
+  Urbana
+  Comercial
+  Industrial
+  Vial
+  Hidrahulica
 }
 
 model Project {
