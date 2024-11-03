@@ -15,6 +15,11 @@ import { progressExist } from "../middlewares/progress";
 import { progressController } from "../controllers/progressController";
 import { mishapExist } from "../middlewares/mishap";
 import { misahpController } from "../controllers/mishapController";
+import { inventoryController } from "../controllers/inventoryController";
+import { toolController } from "../controllers/toolsController";
+import { inputController } from "../controllers/inputController";
+import { inventoryExist } from "../middlewares/inventory";
+import { noteController } from "../controllers/noteController";
 
 const router = Router()
 
@@ -31,6 +36,7 @@ router.param('informationId', informationExist)
 router.param('assistId', assistExist)
 router.param('progressId', progressExist)
 router.param('mishapId', mishapExist)
+router.param('inventoryId', inventoryExist)
 // ------------------------- End middlewares
 
 // Project
@@ -95,5 +101,33 @@ router.get('/mishap/:id', misahpController.getMishap)
 router.put('/mishap/:mishapId', misahpController.updateMishap)
 router.delete('/mishap/:mishapId', misahpController.deleteMishap)
 // ----------
+
+// Collection 3 for Inventory
+// Inventory
+router.get('/:projectId/inventory', inventoryController.getInventory)
+router.post('/:projectId/inventory', inventoryController.createInventory)
+router.get('/:projectId/inventory-s', inventoryController.getAllInventory)
+router.get('/:projectId/inventory-tools', inventoryController.getInventoryTools)
+router.get('/:projectId/inventory-inputs', inventoryController.getInventoryInputs)
+// ----------
+
+// Collection Tool
+router.get('/inventory/:inventoryId/tool', toolController.getAllTools)
+router.post('/inventory/:inventoryId/tool', toolController.createTool)
+router.put('/inventory/tool/:toolId', toolController.getTool)
+// ----------
+
+// Collection Input
+router.get('/inventory/:inventoryId/input', inputController.getAllInputs)
+router.post('/inventory/:inventoryId/input', inputController.createInput)
+router.put('/inventory/input/:inputId', inputController.getInput)
+// ----------
+
+// Collection Note
+router.post('/inventory/note', noteController.createNote)
+router.get('/inventory/note/:noteId', noteController.getNote)
+router.delete('/inventory/note/:noteId', noteController.deleteNote)
+// ----------
+// ---------------------------------- End Collection 3 for Inventory
 
 export default router

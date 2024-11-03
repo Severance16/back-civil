@@ -242,6 +242,8 @@ model Note {
   id Int @id  @default(autoincrement())
   date DateTime
   type NoteType
+  description String
+  quantity Float
   
   tool Tool? @relation(fields: [toolId], references: [id])
   toolId Int?
