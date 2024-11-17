@@ -12,6 +12,13 @@ export class projectController {
             { usersProjects: { some: { userId: id } } }, // Condición de permisos
           ],
         },
+        select:{
+          id: true,
+          name: true,
+          owner: true,
+          address: true,
+          workType: true
+        }
       });
       res.json(query);
     } catch (error) {
