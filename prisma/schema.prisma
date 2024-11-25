@@ -46,7 +46,7 @@ model Project {
   totalArea        String?
   authorizedLevels Int?
   photo            String?
-  workType         WorksTypes?
+  workType         WorksTypes
   startDate        DateTime
   endDate          DateTime?
   createdAt        DateTime   @default(now())
