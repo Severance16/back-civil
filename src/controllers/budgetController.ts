@@ -10,8 +10,23 @@ export class budgetController {
         where: {
           projectId: +projectId,
         },
+        select: {
+          type: true,
+          id: true
+        }
       });
-      res.json(query);
+
+
+      const response = {
+        Inicial: {
+          exist: query.some((budget) => budget.type === "Inicial"),
+          id: query.find((budget) => budget.type === "Inicial")?.id || null,
+        },
+        Final: {
+          exist: query.some((budget) => budget.type === "Final"),
+          id: query.find((budget) => budget.type === "Final")?.id || null}
+      }
+      res.json(response);
     } catch (error) {
       res.status(500).json({
         message: "Hubo un error.",
