@@ -54,7 +54,7 @@ export class UserController {
 
             data.password = await hashPassword(data.password)
             const query = await prismaClient.user.create({ data })
-            res.status(201).json({query})
+            res.status(201).json(query)
 
         } catch (error) {
             res.status(500).json({
