@@ -45,10 +45,12 @@ export const authenticate = async (req: Request, res: Response, next: NextFuncti
                 req.user = user
             } else {
                 res.status(500).json({error: "Token no válido."})
+                return
             }
         }
     } catch (error) {
         res.status(500).json({ error: "Token no válido." })
+        return
     }
     next()
 }
