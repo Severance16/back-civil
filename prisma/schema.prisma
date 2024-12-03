@@ -166,6 +166,7 @@ model Progress {
   activity    String
   description String
   evidence    String
+  createdAt        DateTime   @default(now())
 
   project Project @relation(fields: [projectId], references: [id])
   projectId Int
@@ -179,6 +180,7 @@ model Mishap {
   activity    String
   description String
   evidence    String
+  createdAt        DateTime   @default(now())
 
   project Project @relation(fields: [projectId], references: [id])
   projectId Int
