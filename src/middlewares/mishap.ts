@@ -8,7 +8,7 @@ export async function mishapExist(
 ) {
   try {
     const { mishapId } = req.params;
-    const mishapExist = await prismaClient.progress.findUnique({
+    const mishapExist = await prismaClient.mishap.findUnique({
       where: {
         id: +mishapId,
       },

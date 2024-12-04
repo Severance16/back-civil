@@ -82,7 +82,7 @@ export class misahpController {
   static deleteMishap = async (req: Request, res: Response) => {
     try {
       const { mishapId } = req.params
-      const query = await prismaClient.progress.delete({
+      const query = await prismaClient.mishap.delete({
         where: {
           id: +mishapId
         }
