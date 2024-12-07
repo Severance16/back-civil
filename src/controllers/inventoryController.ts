@@ -44,7 +44,7 @@ export class inventoryController {
   static getAllInventory = async (req: Request, res: Response) => {
     try {
       const { projectId } = req.params;
-      const query = await prismaClient.inventory.findMany({
+      const query = await prismaClient.inventory.findFirst({
         where: {
           projectId: +projectId,
         },
