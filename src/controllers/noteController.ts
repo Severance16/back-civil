@@ -160,4 +160,40 @@ export class noteController {
       });
     }
   };
+
+  static getNotesByToolId  = async (req: Request, res: Response) => {
+    try {
+      const { toolId } = req.params
+      
+      const query = await prismaClient.note.findMany({
+        where: {
+          toolId: +toolId
+        }
+      })
+      res.json(query)
+    } catch (error) {
+      res.status(500).json({
+        message: "Hubo un error.",
+        error: error.message,
+      });
+    }
+  }
+
+  static getNotesByInputId  = async (req: Request, res: Response) => {
+    try {
+      const { inputId } = req.params
+
+      const query = await prismaClient.note.findMany({
+        where: {
+          inputId: +inputId
+        }
+      })
+      res.json(query)
+    } catch (error) {
+      res.status(500).json({
+        message: "Hubo un error.",
+        error: error.message,
+      });
+    }
+  }
 }

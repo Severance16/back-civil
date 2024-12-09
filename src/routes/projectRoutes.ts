@@ -113,12 +113,14 @@ router.get('/:projectId/inventory-inputs', inventoryController.getInventoryInput
 
 // Collection Tool
 router.get('/inventory/:inventoryId/tool', toolController.getAllTools)
+router.get('/tool/:toolId', toolController.getTool)
 router.post('/inventory/:inventoryId/tool', toolController.createTool)
 router.put('/inventory/tool/:toolId', toolController.getTool)
 // ----------
 
 // Collection Input
 router.get('/inventory/:inventoryId/input', inputController.getAllInputs)
+router.get('/input/:inputId', inputController.getInput)
 router.post('/inventory/:inventoryId/input', inputController.createInput)
 router.put('/inventory/input/:inputId', inputController.getInput)
 // ----------
@@ -126,6 +128,8 @@ router.put('/inventory/input/:inputId', inputController.getInput)
 // Collection Note
 router.post('/inventory/note', noteController.createNote)
 router.get('/inventory/note/:noteId', noteController.getNote)
+router.get('/tool/:toolId/note', noteController.getNotesByToolId)
+router.get('/input/:inputId/note', noteController.getNotesByInputId)
 router.delete('/inventory/note/:noteId', noteController.deleteNote)
 // ----------
 // ---------------------------------- End Collection 3 for Inventory
