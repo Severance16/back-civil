@@ -11,15 +11,15 @@ datasource db {
 }
 
 model User {
-  id            Int           @id @default(autoincrement())
-  name          String
-  lastname      String
-  email         String        @unique
-  password      String
-  position     String
-  address       String
-  phone         String
-  createdAt     DateTime      @default(now())
+  id        Int      @id @default(autoincrement())
+  name      String
+  lastname  String
+  email     String   @unique
+  password  String
+  position  String
+  address   String
+  phone     String
+  createdAt DateTime @default(now())
 
   projects      Project[]
   usersProjects UserProject[]
@@ -57,11 +57,10 @@ model Project {
   usersProjects UserProject[]
   bugets        Budget[]
   indormations  Information[]
-  progress Progress[]
-  mishaps Mishap[]
+  progress      Progress[]
+  mishaps       Mishap[]
 
   inventory Inventory?
-
 
   @@map("projects")
 }
@@ -111,7 +110,7 @@ model Item {
 }
 
 model SubItem {
-  id          Int    @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   description String
   unit        String?
   quantity    Float?
@@ -133,6 +132,7 @@ model Information {
   temperature   String?
   humidity      String?
   wind          String?
+  createdAt     DateTime @default(now())
 
   project   Project @relation(fields: [projectId], references: [id])
   projectId Int
@@ -161,57 +161,58 @@ model Assist {
 }
 
 model Progress {
-  id          Int    @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   consecutive String
   activity    String
   description String
   evidence    String
-  createdAt        DateTime   @default(now())
+  createdAt   DateTime @default(now())
 
-  project Project @relation(fields: [projectId], references: [id])
+  project   Project @relation(fields: [projectId], references: [id])
   projectId Int
-  
+
   @@map("progress")
 }
 
 model Mishap {
-  id          Int    @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   consecutive String
   activity    String
   description String
   evidence    String
-  createdAt        DateTime   @default(now())
+  createdAt   DateTime @default(now())
 
-  project Project @relation(fields: [projectId], references: [id])
+  project   Project @relation(fields: [projectId], references: [id])
   projectId Int
 
   @@map("mishaps")
 }
 
 model Inventory {
-  id Int @id  @default(autoincrement())
-  
-  project Project @relation(fields: [projectId], references: [id])
-  projectId Int @unique
+  id Int @id @default(autoincrement())
 
-  tools Tool[]
+  project   Project @relation(fields: [projectId], references: [id])
+  projectId Int     @unique
+
+  tools  Tool[]
   inputs Input[]
 
   @@map("inventories")
 }
 
 model Tool {
-  id Int @id  @default(autoincrement())
+  id            Int       @id @default(autoincrement())
   numberArticle String
-  description String
-  quantity Float
-  place String?
-  condition String
-  serviceTime Int?
-  purchaseDate DateTime?
-  unitValue Float
+  description   String
+  quantity      Float
+  place         String?
+  condition     String
+  serviceTime   Int?
+  purchaseDate  DateTime?
+  unitValue     Float
+  createdAt     DateTime  @default(now())
 
-  inventory Inventory @relation(fields: [inventoryId], references: [id])
+  inventory   Inventory @relation(fields: [inventoryId], references: [id])
   inventoryId Int
 
   notes Note[]
@@ -220,17 +221,18 @@ model Tool {
 }
 
 model Input {
-  id Int @id  @default(autoincrement())
+  id            Int       @id @default(autoincrement())
   numberArticle String
-  description String
-  unit String?
-  quantity Float
-  purchaseDate DateTime?
-  unitValue Float
+  description   String
+  unit          String?
+  quantity      Float
+  purchaseDate  DateTime?
+  unitValue     Float
+  createdAt     DateTime  @default(now())
 
-  inventory Inventory @relation(fields: [inventoryId], references: [id])
+  inventory   Inventory @relation(fields: [inventoryId], references: [id])
   inventoryId Int
-  
+
   notes Note[]
 
   @@map("inputs")
@@ -240,17 +242,19 @@ enum NoteType {
   Ingreso
   Egreso
 }
+
 model Note {
-  id Int @id  @default(autoincrement())
-  date DateTime
-  type NoteType
+  id          Int      @id @default(autoincrement())
+  date        DateTime
+  type        NoteType
   description String
-  quantity Float
-  
-  tool Tool? @relation(fields: [toolId], references: [id])
-  toolId Int?
-  input Input? @relation(fields: [inputId], references: [id])
+  quantity    Float
+  createdAt   DateTime @default(now())
+
+  tool    Tool?  @relation(fields: [toolId], references: [id])
+  toolId  Int?
+  input   Input? @relation(fields: [inputId], references: [id])
   inputId Int?
 
- @@map("notes")
+  @@map("notes")
 }
