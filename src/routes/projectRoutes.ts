@@ -126,7 +126,7 @@ router.put('/inventory/tool/:toolId', toolController.updateTool)
 router.get('/inventory/:inventoryId/input', inputController.getAllInputs)
 router.get('/input/:id', inputController.getInput)
 router.post('/inventory/:inventoryId/input', inputController.createInput)
-router.put('/inventory/input/:inputId', inputController.getInput)
+router.put('/inventory/input/:inputId', inputController.updateInput)
 // ----------
 
 // Collection Note
