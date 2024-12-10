@@ -32,8 +32,8 @@ export class noteController {
           data,
         });
 
-        const query = await Promise.all([updateTool, createNote]);
-        res.status(201).json(query);
+        const [updatedTool, note] = await Promise.all([updateTool, createNote]);
+        res.status(201).json({tool: updatedTool, note: note});
       } catch (error) {
         res.status(500).json({
           message: "Hubo un error.",
