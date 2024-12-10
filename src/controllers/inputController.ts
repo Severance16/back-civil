@@ -40,10 +40,10 @@ export class inputController {
   
   static getInput = async (req: Request, res: Response) => {
     try {
-      const { inputId } = req.params;
+      const { id } = req.params;
       const query = await prismaClient.input.findUnique({
         where: {
-          id: +inputId
+          id: +id
         }
       });
       if (!query) {
@@ -51,6 +51,25 @@ export class inputController {
         res.status(404).json({error: error.message})
         return
       }
+      res.json(query);
+    } catch (error) {
+      res.status(500).json({
+        message: "Hubo un error.",
+        error: error.message,
+      });
+    }
+  };
+
+  static updateInput = async (req: Request, res: Response) => {
+    try {
+      const { inputId } = req.params;
+      const data = req.body
+      const query = await prismaClient.input.update({
+        where: {
+          id: +inputId
+        },
+        data
+      });
       res.json(query);
     } catch (error) {
       res.status(500).json({

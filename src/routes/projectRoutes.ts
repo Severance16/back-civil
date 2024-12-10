@@ -20,6 +20,8 @@ import { toolController } from "../controllers/toolsController";
 import { inputController } from "../controllers/inputController";
 import { inventoryExist } from "../middlewares/inventory";
 import { noteController } from "../controllers/noteController";
+import { toolExist } from "../middlewares/tool";
+import { inputExist } from "../middlewares/input";
 
 const router = Router()
 
@@ -37,6 +39,8 @@ router.param('assistId', assistExist)
 router.param('progressId', progressExist)
 router.param('mishapId', mishapExist)
 router.param('inventoryId', inventoryExist)
+router.param('toolId', toolExist)
+router.param('inputId', inputExist)
 // ------------------------- End middlewares
 
 // Project
@@ -113,14 +117,14 @@ router.get('/:projectId/inventory-inputs', inventoryController.getInventoryInput
 
 // Collection Tool
 router.get('/inventory/:inventoryId/tool', toolController.getAllTools)
-router.get('/tool/:toolId', toolController.getTool)
+router.get('/tool/:id', toolController.getTool)
 router.post('/inventory/:inventoryId/tool', toolController.createTool)
-router.put('/inventory/tool/:toolId', toolController.getTool)
+router.put('/inventory/tool/:toolId', toolController.updateTool)
 // ----------
 
 // Collection Input
 router.get('/inventory/:inventoryId/input', inputController.getAllInputs)
-router.get('/input/:inputId', inputController.getInput)
+router.get('/input/:id', inputController.getInput)
 router.post('/inventory/:inventoryId/input', inputController.createInput)
 router.put('/inventory/input/:inputId', inputController.getInput)
 // ----------

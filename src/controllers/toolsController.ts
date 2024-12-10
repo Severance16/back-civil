@@ -40,10 +40,10 @@ export class toolController {
   
   static getTool = async (req: Request, res: Response) => {
     try {
-      const { toolId } = req.params;
+      const { id } = req.params;
       const query = await prismaClient.tool.findUnique({
         where: {
-          id: +toolId
+          id: +id
         }
       });
       if (!query) {
@@ -51,6 +51,25 @@ export class toolController {
         res.status(404).json({error: error.message})
         return
       }
+      res.json(query);
+    } catch (error) {
+      res.status(500).json({
+        message: "Hubo un error.",
+        error: error.message,
+      });
+    }
+  };
+  
+  static updateTool = async (req: Request, res: Response) => {
+    try {
+      const { toolId } = req.params;
+      const data = req.body
+      const query = await prismaClient.tool.update({
+        where: {
+          id: +toolId
+        },
+        data
+      });
       res.json(query);
     } catch (error) {
       res.status(500).json({
