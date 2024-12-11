@@ -125,7 +125,7 @@ model SubItem {
 
 model Information {
   id            Int      @id @default(autoincrement())
-  state         String
+  // state         String
   date          DateTime
   time          String?
   precipitation String?
