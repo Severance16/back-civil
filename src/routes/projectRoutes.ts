@@ -84,7 +84,6 @@ router.delete('/information/:informationId', informationController.deleteInforma
 router.get('/information/:informationId/assist', assistController.getAllAssists)
 router.post('/information/:informationId/assist', assistController.createAssist)
 router.get('/information/assist/:id', assistController.getAssist)
-router.post('/information/:informationId/assists', assistController.createAssists)
 router.put('/information/assist/:assistId', assistController.updateAssist)
 router.delete('/information/assist/:assistId', assistController.deleteAssist)
 // ----------
