@@ -55,7 +55,7 @@ export class projectController {
         return;
       }
 
-      res.json(project);
+      res.json({...project, isIngResident: project.ingResidentId === userId });
     } catch (error) {
       res.status(500).json({
         message: "Hubo un error.",
