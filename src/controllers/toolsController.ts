@@ -68,7 +68,11 @@ export class toolController {
         where: {
           id: +toolId
         },
-        data
+        data: {
+          ...data,
+          unitValue: parseFloat(data.unitValue),
+          serviceTime: parseInt(data.serviceTime)
+        }
       });
       res.json(query);
     } catch (error) {

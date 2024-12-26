@@ -68,7 +68,10 @@ export class inputController {
         where: {
           id: +inputId
         },
-        data
+        data: {
+          ...data,
+          unitValue: parseFloat(data.unitValue)
+        }
       });
       res.json(query);
     } catch (error) {
