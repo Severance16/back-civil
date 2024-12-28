@@ -12,10 +12,9 @@ export class budgetController {
         },
         select: {
           type: true,
-          id: true
-        }
+          id: true,
+        },
       });
-
 
       const response = {
         Inicial: {
@@ -24,8 +23,9 @@ export class budgetController {
         },
         Final: {
           exist: query.some((budget) => budget.type === "Final"),
-          id: query.find((budget) => budget.type === "Final")?.id || null}
-      }
+          id: query.find((budget) => budget.type === "Final")?.id || null,
+        },
+      };
       res.json(response);
     } catch (error) {
       res.status(500).json({
@@ -70,6 +70,63 @@ export class budgetController {
         return;
       }
       res.json(query);
+    } catch (error) {
+      res.status(500).json({
+        message: "Hubo un error.",
+        error: error.message,
+      });
+    }
+  };
+
+  static getTotalBudget = async (req: Request, res: Response) => {
+    try {
+      const { projectId } = req.params;
+
+      const query = await prismaClient.budget.findMany({
+        where: {
+          projectId: +projectId,
+        },
+        include: {
+          items: {
+            select:{
+              subItems: {
+                select:{
+                  amount:true,
+                  quantity: true
+                }
+              }
+            },
+          },
+        },
+      });
+      if (!query) {
+        const error = new Error("Presupuesto no encontrado.");
+        res.status(404).json({ error: error.message });
+        return;
+      }
+      let sumInicial = 0
+      let sumFinal = 0 
+      query.forEach((item) => {
+        if (item.items.length > 0) {
+          if (item.items[0].subItems.length > 0) {
+            if (item.type === "Inicial") {
+              sumInicial = item.items[0].subItems.reduce((itemTotal, subItem) => {
+                return itemTotal + ( subItem.amount * subItem.quantity )
+              }, 0)
+            }
+            if (item.type === "Final") {
+              sumFinal = item.items[0].subItems.reduce((itemTotal, subItem) => {
+                return itemTotal + ( subItem.amount * subItem.quantity )
+              }, 0)
+            }
+          }
+          
+        }
+      })
+      res.json({
+        inicial: sumInicial,
+        final: sumFinal
+      });
     } catch (error) {
       res.status(500).json({
         message: "Hubo un error.",

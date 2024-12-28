@@ -53,6 +53,7 @@ router.post('/add-permission', projectController.addPermission)
 // Collection 1 for Budgets
 // Budget
 router.get('/:projectId/budget', budgetController.getAllBudgets)
+router.get('/:projectId/budget-total', budgetController.getTotalBudget)
 router.post('/:projectId/budget', budgetController.createBudget)
 router.get('/budget/:id', budgetController.getBudget)
 // ----------
@@ -61,6 +62,7 @@ router.get('/budget/:id', budgetController.getBudget)
 router.get('/budget/:budgetId/item', itemController.getAllItemsBudget)
 router.post('/budget/:budgetId/item', itemController.createItemBudget)
 router.get('/budget/item/:id', itemController.getItemBudget)
+router.get('/budget/item/:id/amount', itemController.getItemBudgetAmount)
 // ----------
 
 // Sub Item
