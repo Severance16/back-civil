@@ -34,7 +34,7 @@ enum WorksTypes {
   Comercial
   Industrial
   Vial
-  Hidrahulica
+  Hidraulica
 }
 
 model Project {
