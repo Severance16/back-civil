@@ -110,14 +110,24 @@ export class budgetController {
         if (item.items.length > 0) {
           if (item.items[0].subItems.length > 0) {
             if (item.type === "Inicial") {
-              sumInicial = item.items[0].subItems.reduce((itemTotal, subItem) => {
-                return itemTotal + ( subItem.amount * subItem.quantity )
-              }, 0)
+              let sumaSubItems = 0
+              item.items.forEach( subItem => {
+                const totalSubitems = subItem.subItems.reduce((itemTotal, subItem) => {
+                  return itemTotal + ( subItem.amount * subItem.quantity )
+                }, 0)
+                sumaSubItems += totalSubitems
+              })
+              sumInicial = sumaSubItems
             }
             if (item.type === "Final") {
-              sumFinal = item.items[0].subItems.reduce((itemTotal, subItem) => {
-                return itemTotal + ( subItem.amount * subItem.quantity )
-              }, 0)
+              let sumaSubItems = 0
+              item.items.forEach( subItem => {
+                const totalSubitems = subItem.subItems.reduce((itemTotal, subItem) => {
+                  return itemTotal + ( subItem.amount * subItem.quantity )
+                }, 0)
+                sumaSubItems += totalSubitems
+              })
+              sumFinal = sumaSubItems
             }
           }
           
